@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<>
+    <main>
+        <div class="log-in-container pt-5">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="log-in">
+                <h2>Create Profile</h2>
+                <div class="log-in-form">
+                    {{form.image}}
+                    {{form.first_name}}
+                    {{form.last_name}}
+                    {{form.bio}}
+                    {{form.location}}
+                    {{form.url}}
+                    <button class="log-in-button" type="submit">Create Profile</button>
+                </div>
+            </div>
+        </form>
+
+    </main>
+{% endblock content %}

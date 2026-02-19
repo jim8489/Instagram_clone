@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<>
+    <main>
+        <div class="log-in-container">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="log-in">
+                <h2>Create Post</h2>
+                <div class="log-in-form">
+                    {{form.picture}}
+                    {{form.caption}}
+                    {{form.tag}}
+                    <button class="log-in-button" type="submit">Create Post</button>
+                </div>
+            </div>
+        </form>
+
+    </main>
+{% endblock content %}

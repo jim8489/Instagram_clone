@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<head>
+    <title>Profile</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/style.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css"/>
+</head>
+<header>
+
+	<div class="container pt-5">
+
+		<div class="profile">
+
+			<div class="profile-image">
+
+				<img src="{{profile.image.url}}" style="width:200px; height:200px; fit:crop; crop:faces" alt="">
+
+			</div>
+
+			<div class="profile-user-settings">
+
+				<h1 class="profile-user-name"><b>{{profile.first_name|title}} {{profile.last_name|title}}</b></h1>
+				{% if profile.user == request.user %}
+				<a href="{% url 'profile_edit' %}" class="profile-btn">Edit Profile</a>
+				<a href="{% url 'profile_edit' %}" class="profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></a>
+				{% endif %}
+				{% if profile.user != request.user %}
+				<br><br>
+				        <a href="{% url 'directs' profile.user %}" class='profile-edit-btn' style='color:blue;'>Message<a>
+				    {% if follow_status %}
+				        <a href="{% url 'follow' profile.user 0 %}" class='profile-edit-btn' style='color:red;'>Unfollow<a>
+					{% else %}
+						<a href="{% url 'follow' profile.user 1 %}" class='profile-edit-btn' style='color:green;'>Follow<a>
+					{% endif %}
+				<br>
+				{% endif  %}
+
+
+			</div>
+
+			<div class="profile-stats">
+
+				<ul>
+					<li><span class="profile-stat-count">{{post_count}}</span> posts</li>
+					<li><span class="profile-stat-count">{{followers_count}}</span> followers</li>
+					<li><span class="profile-stat-count">{{following_count}}</span> following</li>
+				</ul>
+
+			</div>
+
+			<div class="profile-bio">
+
+				<p><span class="profile-real-name">Bio: {{profile.bio}}</span></p>
+                <p><span class="profile-real-name">From - {{profile.location}}</span></p>
+                <p><span class="profile-real-name">Link - <a href="#">{{profile.url}}</a></span></p>
+
+			</div>
+
+		</div>
+		<!-- End of profile section -->
+
+	</div>
+	<!-- End of container -->
+
+</header>
+
+<main>
+
+	<div class="container">
+
+		<div class="gallery">
+			{% if posts %}
+            {% for post in posts%}
+			<a href="{% url 'post_detail' post.id %}"><div class="gallery-item" tabindex="0">
+				<img src="{{post.picture.url}}" class="gallery-image" style="width:600px; height:300px; fit:crop;" alt="">
+				<div class="gallery-item-info">
+
+					<ul>
+						<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> {{post.likes}}</li>
+						<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
+					</ul>
+				</div>
+			</div></a>
+            {% endfor %}
+			{% else %}
+			<center class="mr-5"><h1>You have no post!<h1></center>
+			{% endif %}
+
+		</div>
+		<!-- End of gallery -->
+        {% if posts %}
+		<div class="loader"></div>
+		{% endif %}
+
+
+	</div>
+	<!-- End of container -->
+
+</main>
+{% endblock content %}
